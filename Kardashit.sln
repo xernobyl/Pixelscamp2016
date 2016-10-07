@@ -8,7 +8,7 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Trainer", "Kardashit\Traine
 		{3568AC86-58B6-4CBA-A0EA-57894DB63142} = {3568AC86-58B6-4CBA-A0EA-57894DB63142}
 	EndProjectSection
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "NeuralNetwork", "ClassLibrary1\NeuralNetwork.csproj", "{3568AC86-58B6-4CBA-A0EA-57894DB63142}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "NeuralNetwork", "NeuralNetwork\NeuralNetwork.csproj", "{3568AC86-58B6-4CBA-A0EA-57894DB63142}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Tester", "Tester\Tester.csproj", "{819F85FD-F5B8-42C9-9236-24FC1E372F0B}"
 EndProject

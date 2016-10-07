@@ -1,7 +1,8 @@
-Tester/obj/
 Common/obj/
+Common/bin/
 Kardashit/obj/
 Kardashit/bin/
-Original/
-ClassLibrary1/obj/
+NeuralNetwork/obj/
+NeuralNetwork/bin/
+Tester/obj/
 Tester/bin/
