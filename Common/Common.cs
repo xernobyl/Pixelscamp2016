@@ -24,6 +24,33 @@ namespace Kardashit
         public static List<string> colours = new List<string>(new string[] { "Colour10", "Colour8", "Colour1", "Colour5", "Colour2", "Colour11", "Colour13", "Colour4", "Colour3", "Colour9", "Colour6", "Colour14", "Colour7", "Colour15", "Colour12", "Colour16", });
         public static List<string> distPhases = new List<string>(new string[] { "0", "4", "2", "1", "3", "5", "12", "13", "7", "9", "8", "20", "11", "15", "6", "21", "18", "17", "29", "34", "14", "35", "19", "48", "10", "16", "22", "28", "65", "40", "33", "46", "39", "109", "31", "158", "81", "66", "73", "68", "114", "95", "43", "24", "71", "23", "45", "27", "32", "41", "136", "125", "26", "30", "54", "37", "187", "137", "86", });
 
+        public static double[][] ReadInputCSV(string file_path, bool ignore_first_line = false)
+        {
+            var lines = File.ReadAllLines(file_path);
+            var list = new double[ignore_first_line ? lines.Length - 1 : lines.Length][];
+            int j = 0;
+
+            foreach (var line in lines)
+            {
+                if (ignore_first_line)
+                {
+                    ignore_first_line = false;
+                    continue;
+                }
+
+                var t = Regex.Split(line, ",");
+
+                var data = new double[t.Length];
+
+                for (int i = 0; i < t.Length; ++i)
+                    data[i] = double.Parse(t[i], System.Globalization.CultureInfo.InvariantCulture);
+
+                list[j++] = data;
+            }
+
+            return list;
+        }
+
         public static void MakeClothesFileLists(string file_path)
         {
             // ID,SeasonCode,ProductCode,CycleCode,CountryCode,Biz_unit_Code,CatCode,SubCatCode,UnitBaseCode,GenderCode,GroupCode,ColourCode,First_Sale_Date,PVP,Dist_phase,Units_Sold,Stock,Flop
@@ -138,31 +165,34 @@ namespace Kardashit
             Console.WriteLine("});");
         }
 
-        public static void Normalize(double[][] dataMatrix, int[] cols)
+        static void Normalize(double[][] dataMatrix, int[] cols, int size)
         {
+            if (size == -1)
+                size = dataMatrix.Length;
+
             // normalize specified cols by computing (x - mean) / sd for each value
             foreach (int col in cols)
             {
                 double sum = 0.0;
-                for (int i = 0; i < dataMatrix.Length; ++i)
+                for (int i = 0; i < size; ++i)
                     sum += dataMatrix[i][col];
-                double mean = sum / dataMatrix.Length;
+                double mean = sum / size;
                 sum = 0.0;
-                for (int i = 0; i < dataMatrix.Length; ++i)
+                for (int i = 0; i < size; ++i)
                     sum += (dataMatrix[i][col] - mean) * (dataMatrix[i][col] - mean);
                 // thanks to Dr. W. Winfrey, Concord Univ., for catching bug in original code
-                double sd = Math.Sqrt(sum / (dataMatrix.Length - 1));
-                for (int i = 0; i < dataMatrix.Length; ++i)
+                double sd = Math.Sqrt(sum / (size - 1));
+                for (int i = 0; i < size; ++i)
                     dataMatrix[i][col] = (dataMatrix[i][col] - mean) / sd;
             }
         }
 
-        public static double[][] ParseClothesFile(string file_path)
+        public static double[][] ParseClothesFile(string file_path, out int n_lines)
         {
             // ID,SeasonCode,ProductCode,CycleCode,CountryCode,Biz_unit_Code,CatCode,SubCatCode,UnitBaseCode,GenderCode,GroupCode,ColourCode,First_Sale_Date,PVP,Dist_phase,Units_Sold,Stock,Flop
             var lines = File.ReadAllLines(file_path);
             var list = new double[lines.Length - 1][];
-            int line_n = 0;
+            n_lines = 0;
             bool first_line = true;
 
             foreach (var line in lines)
@@ -176,34 +206,38 @@ namespace Kardashit
                 var t = Regex.Split(line, ",");
 
                 var data = new double[19];
-                data[0] = seasons.IndexOf(t[1]);    // season code
-                data[1] = products.IndexOf(t[2]);   // product code
-                data[2] = cycles.IndexOf(t[3]);     // cycle code
-                data[3] = countries.IndexOf(t[4]);  // country code
-                data[4] = bizUnits.IndexOf(t[5]);   // business unit code
-                data[5] = cats.IndexOf(t[6]);       // category code
-                data[6] = subCats.IndexOf(t[7]);    // sub category code
-                data[7] = unitBases.IndexOf(t[8]);  // unit base code
-                data[8] = genders.IndexOf(t[9]);    // gender code
-                data[9] = groups.IndexOf(t[10]);    // group code
-                data[10] = colours.IndexOf(t[11]);  // colour code
+                data[0] = seasons.IndexOf(t[1]) / (seasons.Count - 1) * 2.0 - 1.0;      // season code
+                data[1] = products.IndexOf(t[2]) / (products.Count - 1) * 2.0 - 1.0;    // product code
+                data[2] = cycles.IndexOf(t[3]) / (cycles.Count - 1) * 2.0 - 1.0;        // cycle code
+                data[3] = countries.IndexOf(t[4]) / (countries.Count - 1) * 2.0 - 1.0;  // country code
+                data[4] = bizUnits.IndexOf(t[5]) / (bizUnits.Count - 1) * 2.0 - 1.0;    // business unit code
+                data[5] = cats.IndexOf(t[6]) / (cats.Count - 1) * 2.0 - 1.0;            // category code
+                data[6] = subCats.IndexOf(t[7]) / (subCats.Count - 1) * 2.0 - 1.0;      // sub category code
+                data[7] = unitBases.IndexOf(t[8]) / (unitBases.Count - 1) * 2.0 - 1.0;  // unit base code
+                data[8] = genders.IndexOf(t[9]) / (genders.Count - 1) * 2.0 - 1.0;      // gender code
+                data[9] = groups.IndexOf(t[10]) / (groups.Count - 1) * 2.0 - 1.0;       // group code
+                data[10] = colours.IndexOf(t[11]) / (colours.Count - 1) * 2.0 - 1.0;    // colour code
 
                 if (t[12].Length >= 8)
                 {
                     int year = int.Parse(t[12].Substring(0, 4));
                     int month = int.Parse(t[12].Substring(4, 2));
                     int day = int.Parse(t[12].Substring(6, 2));
-                    data[11] = (new DateTime(year, month, day) - new DateTime(1970, 1, 1, 0, 0, 0, 0, System.DateTimeKind.Utc)).TotalDays;
-                    data[12] = 0.0;
+
+                    var timestamp = (new DateTime(year, month, day) - new DateTime(year, 1, 1)).TotalDays / (new DateTime(year, 12, 31) - new DateTime(year, 1, 1)).TotalDays;
+                    timestamp = Math.Abs(timestamp - 0.5) * 4.0 - 1.0;
+
+                    data[11] = timestamp;
+                    data[12] = 1.0;
                 }
                 else
                 {
                     data[11] = 0.0;
-                    data[12] = 1.0;
+                    data[12] = -1.0;
                 }
 
                 data[13] = double.Parse(t[13], System.Globalization.CultureInfo.InvariantCulture);  // pvp
-                data[14] = distPhases.IndexOf(t[14]);  // dist phase
+                data[14] = distPhases.IndexOf(t[14]) / (distPhases.Count - 1) * 2.0 - 1.0;  // dist phase
                 data[15] = double.Parse(t[15], System.Globalization.CultureInfo.InvariantCulture);  // units sold
                 data[16] = double.Parse(t[16], System.Globalization.CultureInfo.InvariantCulture);  // stock
 
@@ -214,8 +248,10 @@ namespace Kardashit
                     data[18] = 1.0 - data[17];                                                          // not flop
                 }
 
-                list[line_n++] = data;
+                list[n_lines++] = data;
             }
+
+            Normalize(list, new int[] { 13, 15, 16 }, n_lines);
 
             return list;
         }
@@ -255,6 +291,15 @@ namespace Kardashit
             }
             if (newLine == true)
                 Console.WriteLine("");
+        }
+
+        public static void WriteWeightFile(double[] weights, string file_path)
+        {
+            using (Stream stream = File.Open(file_path, FileMode.Create))
+            {
+                BinaryFormatter bformatter = new BinaryFormatter();
+                bformatter.Serialize(stream, weights);
+            }
         }
     }
 }

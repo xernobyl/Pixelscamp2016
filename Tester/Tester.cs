@@ -35,7 +35,8 @@ namespace Kardashit
                 weights_file = "kardashit.weights";
 
             var weights = Common.ReadWeightFile(weights_file);
-            var testData = Common.ParseClothesFile(test_file);
+            int n_lines;
+            var testData = Common.ParseClothesFile(test_file, out n_lines);
 
             int numOutput = 2;
             int numHidden = 97;
