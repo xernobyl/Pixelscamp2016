@@ -36,7 +36,7 @@ namespace Kardashit
 
             var weights = Common.ReadWeightFile(weights_file);
             int n_lines;
-            var testData = Common.ParseClothesFile(test_file, out n_lines);
+            var testData = Common.ParseClothesFile(test_file, out n_lines, false);
 
             int numOutput = 2;
             int numInput = 16;
@@ -76,7 +76,7 @@ namespace Kardashit
                             continue;
                         }
 
-                        if (testData[line_number][12] == -1)
+                        if (double.IsNaN(testData[line_number][12]))
                         {
                             flop = true;
                         }

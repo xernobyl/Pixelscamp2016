@@ -187,7 +187,7 @@ namespace Kardashit
             }
         }
 
-        public static double[][] ParseClothesFile(string file_path, out int n_lines)
+        public static double[][] ParseClothesFile(string file_path, out int n_lines, bool skip_null_date = true)
         {
             // ID,SeasonCode,ProductCode,CycleCode,CountryCode,Biz_unit_Code,CatCode,SubCatCode,UnitBaseCode,GenderCode,GroupCode,ColourCode,First_Sale_Date,PVP,Dist_phase,Units_Sold,Stock,Flop
             var lines = File.ReadAllLines(file_path);
@@ -231,7 +231,10 @@ namespace Kardashit
                 }
                 else
                 {
-                    data[11] = 0.0;
+                    if (skip_null_date)
+                        continue;
+                    else
+                        data[11] = double.NaN;
                 }
 
                 data[12] = Normalize(double.Parse(t[13], System.Globalization.CultureInfo.InvariantCulture), 0.5, 25.0);  // pvp (0.5 .. 25.0)
