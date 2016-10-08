@@ -76,7 +76,7 @@ namespace Kardashit
                             continue;
                         }
 
-                        if (double.IsNaN(testData[line_number][12]))
+                        if (double.IsNaN(testData[line_number][11]))
                         {
                             flop = true;
                         }
