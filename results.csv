@@ -1,4 +1,4 @@
-ID,SeasonCode,ProductCode,CycleCode,CountryCode,Biz_unit_Code,CatCode,SubCatCode,UnitBaseCode,GenderCode,GroupCode,ColourCode,First_Sale_Date,PVP,Dist_phase,Units_Sold,Stock
+ID,SeasonCode,ProductCode,CycleCode,CountryCode,Biz_unit_Code,CatCode,SubCatCode,UnitBaseCode,GenderCode,GroupCode,ColourCode,First_Sale_Date,PVP,Dist_phase,Units_Sold,Stock,FLOP
 5268F319,SeasonA_Y2,Product77,Cycle2,Country1,Biz_unit4,Cat13,SubCat68,UnitBase312,Gender3,Group8,Colour8,20150521,1.00,0,0,181,0
 5268F521,SeasonA_Y2,Product77,Cycle2,Country1,Biz_unit4,Cat13,SubCat68,UnitBase312,Gender1,Group8,Colour2,20150315,1.00,0,5,23,0
 5268F925,SeasonA_Y2,Product77,Cycle2,Country1,Biz_unit4,Cat13,SubCat68,UnitBase312,Gender3,Group8,Colour8,20150312,1.00,0,86,59,0
