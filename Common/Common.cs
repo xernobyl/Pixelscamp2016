@@ -205,7 +205,7 @@ namespace Kardashit
 
                 var t = Regex.Split(line, ",");
 
-                var data = new double[19];
+                var data = new double[18];
                 data[0] = (double)seasons.IndexOf(t[1]) / (seasons.Count - 1) * 2.0 - 1.0;      // season code
                 data[1] = (double)products.IndexOf(t[2]) / (products.Count - 1) * 2.0 - 1.0;    // product code
                 data[2] = (double)cycles.IndexOf(t[3]) / (cycles.Count - 1) * 2.0 - 1.0;        // cycle code
@@ -228,32 +228,33 @@ namespace Kardashit
                     timestamp = Math.Abs(timestamp - 0.5) * 4.0 - 1.0;
 
                     data[11] = timestamp;
-                    data[12] = 1.0;
                 }
                 else
                 {
                     data[11] = 0.0;
-                    data[12] = -1.0;
                 }
 
-                data[13] = double.Parse(t[13], System.Globalization.CultureInfo.InvariantCulture);  // pvp
-                data[14] = (double)distPhases.IndexOf(t[14]) / (distPhases.Count - 1) * 2.0 - 1.0;  // dist phase
-                data[15] = double.Parse(t[15], System.Globalization.CultureInfo.InvariantCulture);  // units sold
-                data[16] = double.Parse(t[16], System.Globalization.CultureInfo.InvariantCulture);  // stock
+                data[12] = Normalize(double.Parse(t[13], System.Globalization.CultureInfo.InvariantCulture), 0.5, 25.0);  // pvp (0.5 .. 25.0)
+                data[13] = (double)distPhases.IndexOf(t[14]) / (distPhases.Count - 1) * 2.0 - 1.0;  // dist phase
+                data[14] = Normalize(double.Parse(t[15], System.Globalization.CultureInfo.InvariantCulture), 0.5, 25.0); ;  // units sold (-2 .. 885)
+                data[15] = Normalize(double.Parse(t[16], System.Globalization.CultureInfo.InvariantCulture), 0.5, 25.0); ;  // stock (-44 .. 844)
 
                 if (t.Length >= 18)
                 {
                     // output
-                    data[17] = double.Parse(t[17], System.Globalization.CultureInfo.InvariantCulture);  // flop
-                    data[18] = 1.0 - data[17];                                                          // not flop
+                    data[16] = double.Parse(t[17], System.Globalization.CultureInfo.InvariantCulture);  // flop
+                    data[17] = 1.0 - data[16];                                                          // not flop
                 }
 
                 list[n_lines++] = data;
             }
 
-            Normalize(list, new int[] { 13, 15, 16 }, n_lines);
-
             return list;
+        }
+
+        static double Normalize(double v, double min, double max)
+        {
+            return (v - min) / (max - min) * 2.0 - 1.0;
         }
 
         public static double[] ReadWeightFile(string file_path)

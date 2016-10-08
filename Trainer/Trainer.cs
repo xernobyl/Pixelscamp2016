@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Globalization;
 using System.IO;
 using System.Linq;
 using System.Runtime.Serialization.Formatters.Binary;
@@ -59,13 +60,13 @@ namespace Kardashit
             int numHidden = i >= 0 ? int.Parse(lArgs[i + 1]) : ((numOutput + numInput) * 4 + 4) / 6;
 
             i = lArgs.IndexOf("-e");
-            int maxEpochs = i >= 0 ? int.Parse(lArgs[i + 1]) : 4000;
+            int maxEpochs = i >= 0 ? int.Parse(lArgs[i + 1]) : 2000;
 
             i = lArgs.IndexOf("-l");
-            double learnRate = i >= 0 ? double.Parse(lArgs[i + 1]) : 0.0025;
+            double learnRate = i >= 0 ? double.Parse(lArgs[i + 1], CultureInfo.InvariantCulture) : 0.00125;
 
             i = lArgs.IndexOf("-m");
-            double momentum = i >= 0 ? double.Parse(lArgs[i + 1]) : 0.01;
+            double momentum = i >= 0 ? double.Parse(lArgs[i + 1], CultureInfo.InvariantCulture) : 0.001;
 
             Console.WriteLine("\nCreating a {0}-input, {1}-hidden, {2}-output neural network", numInput, numHidden, numOutput);
             Console.WriteLine("Hard-coded tanh function for input-to-hidden and softmax for hidden-to-output activations");
@@ -74,7 +75,9 @@ namespace Kardashit
 
             nn.InitializeWeights();
 
-            double weightDecay = 0.0001;
+            i = lArgs.IndexOf("-d");
+            double weightDecay = i >= 0 ? double.Parse(lArgs[i + 1], CultureInfo.InvariantCulture) : 0.0001;
+
             double minMse = double.NegativeInfinity;    // 0.00001;
 
             Console.WriteLine("Setting maxEpochs = {0}, learnRate = {1}, momentum = {2}, weightDecay = {3}, error = {4}", maxEpochs, learnRate, momentum, weightDecay, minMse);
@@ -84,7 +87,8 @@ namespace Kardashit
             Console.WriteLine("Training complete");
 
             double[] weights = nn.GetWeights();
-            Common.WriteWeightFile(weights, "kardashit.weights");
+            i = lArgs.IndexOf("-w");
+            Common.WriteWeightFile(weights, i >= 0 ? lArgs[i + 1] : "kardashit.weights");
 
             Console.WriteLine("Final neural network weights and bias values:");
             Common.ShowVector(weights, 10, 8, true);

@@ -39,7 +39,7 @@ namespace Kardashit
             var testData = Common.ParseClothesFile(test_file, out n_lines);
 
             int numOutput = 2;
-            int numInput = 17;
+            int numInput = 16;
             i = lArgs.IndexOf("-h");
             int numHidden = i >= 0 ? int.Parse(lArgs[i + 1]) : ((numOutput + numInput) * 4 + 4) / 6;            
 
