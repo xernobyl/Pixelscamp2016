@@ -1,8 +1,9 @@
 Common/obj/
 Common/bin/
-Kardashit/obj/
-Kardashit/bin/
+Trainer/obj/
+Trainer/bin/
 NeuralNetwork/obj/
 NeuralNetwork/bin/
 Tester/obj/
 Tester/bin/
+.vs

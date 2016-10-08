@@ -223,13 +223,10 @@ namespace Kardashit
 
         public double[] ComputeOutputs(double[] xValues)
         {
-            if (xValues.Length < numInput)
-                throw new Exception("Bad xValues array length");
-
             double[] hSums = new double[numHidden]; // hidden nodes sums scratch array
             double[] oSums = new double[numOutput]; // output nodes sums
 
-            for (int i = 0; i < xValues.Length; ++i) // copy x-values to inputs
+            for (int i = 0; i < this.inputs.Length; ++i) // copy x-values to inputs
                 this.inputs[i] = xValues[i];
 
             for (int j = 0; j < numHidden; ++j)  // compute i-h sum of weights * inputs

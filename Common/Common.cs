@@ -206,17 +206,17 @@ namespace Kardashit
                 var t = Regex.Split(line, ",");
 
                 var data = new double[19];
-                data[0] = seasons.IndexOf(t[1]) / (seasons.Count - 1) * 2.0 - 1.0;      // season code
-                data[1] = products.IndexOf(t[2]) / (products.Count - 1) * 2.0 - 1.0;    // product code
-                data[2] = cycles.IndexOf(t[3]) / (cycles.Count - 1) * 2.0 - 1.0;        // cycle code
-                data[3] = countries.IndexOf(t[4]) / (countries.Count - 1) * 2.0 - 1.0;  // country code
-                data[4] = bizUnits.IndexOf(t[5]) / (bizUnits.Count - 1) * 2.0 - 1.0;    // business unit code
-                data[5] = cats.IndexOf(t[6]) / (cats.Count - 1) * 2.0 - 1.0;            // category code
-                data[6] = subCats.IndexOf(t[7]) / (subCats.Count - 1) * 2.0 - 1.0;      // sub category code
-                data[7] = unitBases.IndexOf(t[8]) / (unitBases.Count - 1) * 2.0 - 1.0;  // unit base code
-                data[8] = genders.IndexOf(t[9]) / (genders.Count - 1) * 2.0 - 1.0;      // gender code
-                data[9] = groups.IndexOf(t[10]) / (groups.Count - 1) * 2.0 - 1.0;       // group code
-                data[10] = colours.IndexOf(t[11]) / (colours.Count - 1) * 2.0 - 1.0;    // colour code
+                data[0] = (double)seasons.IndexOf(t[1]) / (seasons.Count - 1) * 2.0 - 1.0;      // season code
+                data[1] = (double)products.IndexOf(t[2]) / (products.Count - 1) * 2.0 - 1.0;    // product code
+                data[2] = (double)cycles.IndexOf(t[3]) / (cycles.Count - 1) * 2.0 - 1.0;        // cycle code
+                data[3] = (double)countries.IndexOf(t[4]) / (countries.Count - 1) * 2.0 - 1.0;  // country code
+                data[4] = (double)bizUnits.IndexOf(t[5]) / (bizUnits.Count - 1) * 2.0 - 1.0;    // business unit code
+                data[5] = (double)cats.IndexOf(t[6]) / (cats.Count - 1) * 2.0 - 1.0;            // category code
+                data[6] = (double)subCats.IndexOf(t[7]) / (subCats.Count - 1) * 2.0 - 1.0;      // sub category code
+                data[7] = (double)unitBases.IndexOf(t[8]) / (unitBases.Count - 1) * 2.0 - 1.0;  // unit base code
+                data[8] = (double)genders.IndexOf(t[9]) / (genders.Count - 1) * 2.0 - 1.0;      // gender code
+                data[9] = (double)groups.IndexOf(t[10]) / (groups.Count - 1) * 2.0 - 1.0;       // group code
+                data[10] = (double)colours.IndexOf(t[11]) / (colours.Count - 1) * 2.0 - 1.0;    // colour code
 
                 if (t[12].Length >= 8)
                 {
@@ -237,7 +237,7 @@ namespace Kardashit
                 }
 
                 data[13] = double.Parse(t[13], System.Globalization.CultureInfo.InvariantCulture);  // pvp
-                data[14] = distPhases.IndexOf(t[14]) / (distPhases.Count - 1) * 2.0 - 1.0;  // dist phase
+                data[14] = (double)distPhases.IndexOf(t[14]) / (distPhases.Count - 1) * 2.0 - 1.0;  // dist phase
                 data[15] = double.Parse(t[15], System.Globalization.CultureInfo.InvariantCulture);  // units sold
                 data[16] = double.Parse(t[16], System.Globalization.CultureInfo.InvariantCulture);  // stock
 

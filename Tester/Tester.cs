@@ -39,8 +39,9 @@ namespace Kardashit
             var testData = Common.ParseClothesFile(test_file, out n_lines);
 
             int numOutput = 2;
-            int numHidden = 97;
             int numInput = 17;
+            i = lArgs.IndexOf("-h");
+            int numHidden = i >= 0 ? int.Parse(lArgs[i + 1]) : ((numOutput + numInput) * 4 + 4) / 6;            
 
             NeuralNetwork nn = new NeuralNetwork(numInput, numHidden, numOutput);
             nn.SetWeights(weights);
@@ -56,6 +57,8 @@ namespace Kardashit
             {
                 string output_file = lArgs[i + 1];
 
+                int fails = 0;
+
                 using (System.IO.StreamWriter file = new System.IO.StreamWriter(output_file))
                 {
                     bool header_line = true;
@@ -64,6 +67,8 @@ namespace Kardashit
 
                     foreach (string line in lines)
                     {
+                        bool flop;
+
                         if (header_line)
                         {
                             header_line = false;
@@ -71,10 +76,28 @@ namespace Kardashit
                             continue;
                         }
 
-                        var results = nn.ComputeOutputs(testData[line_number++]);
-                        file.WriteLine(line + (results[0] >= 0.5 ? ",1" : ",0"));
+                        if (testData[line_number][12] == -1)
+                        {
+                            flop = true;
+                        }
+                        else
+                        {
+                            var results = nn.ComputeOutputs(testData[line_number]);
+                            flop = results[0] >= 0.5;
+                        }
+
+                        file.WriteLine(line + (flop ? ",1" : ",0"));
+
+                        if (flop)
+                            ++fails;
+
+                        ++line_number;
                     }
+
+                    Console.WriteLine("Flops: " + (double)fails / line_number * 100.0 + "%");
                 }
+
+                Console.ReadKey();
             }
         }
     }

@@ -56,10 +56,10 @@ namespace Kardashit
             int numInput = allData[0].Length - numOutput;
 
             int i = lArgs.IndexOf("-h");
-            int numHidden = i >= 0 ? int.Parse(lArgs[i + 1]) : numOutput + numInput;
+            int numHidden = i >= 0 ? int.Parse(lArgs[i + 1]) : ((numOutput + numInput) * 4 + 4) / 6;
 
             i = lArgs.IndexOf("-e");
-            int maxEpochs = i >= 0 ? int.Parse(lArgs[i + 1]) : 2000;
+            int maxEpochs = i >= 0 ? int.Parse(lArgs[i + 1]) : 4000;
 
             i = lArgs.IndexOf("-l");
             double learnRate = i >= 0 ? double.Parse(lArgs[i + 1]) : 0.0025;
